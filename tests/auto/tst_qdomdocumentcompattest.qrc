@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>xml/act/.rels</file>
+        <file>xml/act/[Content_Types].xml</file>
+        <file>xml/act/app.xml</file>
+        <file>xml/act/core.xml</file>
+        <file>xml/act/document.xml</file>
+        <file>xml/act/fontTable.xml</file>
+        <file>xml/act/numbering.xml</file>
+        <file>xml/act/settings.xml</file>
+        <file>xml/act/styles.xml</file>
+        <file>xml/act/theme1.xml</file>
+        <file>xml/act/webSettings.xml</file>
+        <file>html/act/data1.html</file>
+        <file>html/act/data2.html</file>
+        <file>html/exp/data1.html</file>
+        <file>html/exp/data2.html</file>
+        <file>xml/exp/.rels</file>
+        <file>xml/exp/[Content_Types].xml</file>
+        <file>xml/exp/app.xml</file>
+        <file>xml/exp/core.xml</file>
+        <file>xml/exp/document.xml</file>
+        <file>xml/exp/fontTable.xml</file>
+        <file>xml/exp/numbering.xml</file>
+        <file>xml/exp/settings.xml</file>
+        <file>xml/exp/styles.xml</file>
+        <file>xml/exp/theme1.xml</file>
+        <file>xml/exp/webSettings.xml</file>
+    </qresource>
+</RCC>

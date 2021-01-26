@@ -1,0 +1,14 @@
+#ifndef QTXMLCOMPAT_GLOBAL_H
+#define QTXMLCOMPAT_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(QTXMLCOMPAT_LIBRARY)
+#  define QTXMLCOMPAT_EXPORT Q_DECL_EXPORT
+#elif defined(QTXMLCOMPAT_LIBRARY_TEST)
+#  define QTXMLCOMPAT_EXPORT
+#else
+#  define QTXMLCOMPAT_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // QTXMLCOMPAT_GLOBAL_H
