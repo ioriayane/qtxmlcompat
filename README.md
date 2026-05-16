@@ -55,6 +55,8 @@ This module have been tested on the following platforms:
 
 ### Building the module
 
+#### qmake
+
 ```
 $ git clone git@github.com:ioriayane/qtxmlcompat.git
 $ mkdir build-qtxmlcompat
@@ -64,11 +66,31 @@ $ make
 $ make install
 ```
 
+#### CMake
+
+```
+$ cmake -S qtxmlcompat -B build-qtxmlcompat -DCMAKE_PREFIX_PATH=~/Qt/6.4.3/macos -DCMAKE_BUILD_TYPE=Debug
+$ cmake --build build-qtxmlcompat
+$ cmake --install build-qtxmlcompat
+```
+
 ### Using the module
 
-#### qmake project file(*.pro)
+#### qmake project
+
 ```
 QT += xmlcompat
+greaterThan(QT_MAJOR_VERSION, 5) {
+QT += core5compat
+}
+```
+
+#### CMake project
+
+```
+find_package(QtXmlCompat CONFIG REQUIRED)
+
+target_link_libraries(your_target PRIVATE QtXmlCompat::QtXmlCompat)
 ```
 
 #### Source file(*.cpp/h)
@@ -77,14 +99,6 @@ QT += xmlcompat
 ```
 
 #### Example
-
-qmake project file
-```
-QT += xmlcompat
-greaterThan(QT_MAJOR_VERSION, 5) {
-QT += core5compat
-}
-```
 
 main.cpp
 ```
@@ -114,11 +128,9 @@ Output
 
 ### Testing the module
 
-Please run the test in a debug build.
-If you have success in a release build, that's your luck.
-
-On macOS, you set following environment variable.
+Please run the test in a Debug build.
 
 ```
-export DYLD_IMAGE_SUFFIX=_debug
+cmake --build build-qtxmlcompat --target tst_qdomdocumentcompattest
+ctest --test-dir build-qtxmlcompat --output-on-failure
 ```
