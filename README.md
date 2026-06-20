@@ -73,12 +73,12 @@ $ make install
 
 ```
 $ cmake -S . -B build-qtxmlcompat \
-     -DCMAKE_PREFIX_PATH:PATH=path/to/QTDIR \
+     -DCMAKE_PREFIX_PATH:PATH=$QTDIR \
      -DCMAKE_BUILD_TYPE:STRING=Release
 
 # for mac
 $ cmake -S . -B build-qtxmlcompat \
-     -DCMAKE_PREFIX_PATH:PATH=~/Qt/6.4.3/macos \
+     -DCMAKE_PREFIX_PATH:PATH=$QTDIR \
      -DCMAKE_BUILD_TYPE:STRING=Release \
      -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 
@@ -92,7 +92,7 @@ $ cmake --install build-qtxmlcompat
 
 - windows: TBD
 - ubuntu: TBD
-- mac: ~/Qt/6.4.3/macos
+- mac: ~/Qt/6.11.0/macos
 
 ### Using the module
 
