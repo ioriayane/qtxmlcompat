@@ -68,11 +68,31 @@ $ make install
 
 #### CMake
 
+`CMAKE_PREFIX_PATH` に Qt のインストールディレクトリを指定します。
+インストール先（`CMAKE_INSTALL_PREFIX`）は指定しない場合 Qt ディレクトリが自動で使われます。
+
 ```
-$ cmake -S qtxmlcompat -B build-qtxmlcompat -DCMAKE_PREFIX_PATH=~/Qt/6.4.3/macos -DCMAKE_BUILD_TYPE=Debug
+$ cmake -S . -B build-qtxmlcompat \
+     -DCMAKE_PREFIX_PATH:PATH=path/to/QTDIR \
+     -DCMAKE_BUILD_TYPE:STRING=Release
+
+# for mac
+$ cmake -S . -B build-qtxmlcompat \
+     -DCMAKE_PREFIX_PATH:PATH=~/Qt/6.4.3/macos \
+     -DCMAKE_BUILD_TYPE:STRING=Release \
+     -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+
 $ cmake --build build-qtxmlcompat
 $ cmake --install build-qtxmlcompat
 ```
+
+> インストール先を変えたい場合は `-DCMAKE_INSTALL_PREFIX=<path>` を追加してください。
+
+##### examples of `QTDIR`
+
+- windows: TBD
+- ubuntu: TBD
+- mac: ~/Qt/6.4.3/macos
 
 ### Using the module
 
