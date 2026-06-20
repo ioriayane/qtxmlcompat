@@ -47,6 +47,7 @@ CMakeLists.txt.user*
 cmake-build-*/
 build/
 build-*/
+deploy-*/
 
 # QtCreator 4.8< compilation database 
 compile_commands.json

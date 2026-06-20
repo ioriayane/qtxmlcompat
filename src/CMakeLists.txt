@@ -33,18 +33,43 @@ set_target_properties(QtXmlCompat PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
+if(APPLE)
+    set_target_properties(QtXmlCompat PROPERTIES
+        FRAMEWORK TRUE
+        FRAMEWORK_VERSION A
+        MACOSX_FRAMEWORK_IDENTIFIER com.github.ioriayane.QtXmlCompat
+    )
+endif()
+
 install(TARGETS QtXmlCompat
     EXPORT QtXmlCompatTargets
+    FRAMEWORK DESTINATION lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-install(FILES
-    qdomdocumentcompat.h
-    qdomdocumentcompat_p.h
-    qtxmlcompat_global.h
-    QtXmlCompat
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+if(APPLE)
+    # Framework headers
+    install(FILES
+        qdomdocumentcompat.h
+        qdomdocumentcompat_p.h
+        qtxmlcompat_global.h
+        QtXmlCompat
+        DESTINATION lib/QtXmlCompat.framework/Headers
+    )
+    install(FILES
+        qdomdocumentcompat_p.h
+        DESTINATION lib/QtXmlCompat.framework/Headers/${PROJECT_VERSION}/QtXmlCompat/private
+    )
+else()
+    # Standard include directory
+    install(FILES
+        qdomdocumentcompat.h
+        qdomdocumentcompat_p.h
+        qtxmlcompat_global.h
+        QtXmlCompat
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+endif()

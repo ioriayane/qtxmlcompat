@@ -32,6 +32,82 @@ endif()
 
 add_subdirectory(src)
 
+# Generate mkspecs/modules .pri files (macOS)
+if(APPLE)
+    set(QT_LIB_XMLCOMPAT_PRI
+"QT.xmlcompat.VERSION = ${PROJECT_VERSION}
+QT.xmlcompat.name = QtXmlCompat
+QT.xmlcompat.module = QtXmlCompat
+QT.xmlcompat.ldflags = 
+QT.xmlcompat.libs = \\$\\$QT_MODULE_LIB_BASE
+QT.xmlcompat.includes = \\$\\$QT_MODULE_LIB_BASE/QtXmlCompat.framework/Headers
+QT.xmlcompat.frameworks = \\$\\$QT_MODULE_LIB_BASE
+QT.xmlcompat.bins = \\$\\$QT_MODULE_BIN_BASE
+QT.xmlcompat.depends = core
+QT.xmlcompat.uses =
+QT.xmlcompat.module_config = v2 lib_bundle
+QT.xmlcompat.DEFINES = QT_XMLCOMPAT_LIB
+QT.xmlcompat.enabled_features =
+QT.xmlcompat.disabled_features =
+QT_CONFIG +=
+QT_MODULES += xmlcompat
+")
+
+    set(QT_LIB_XMLCOMPAT_PRIVATE_PRI
+"QT.xmlcompat_private.VERSION = ${PROJECT_VERSION}
+QT.xmlcompat_private.name = QtXmlCompat
+QT.xmlcompat_private.module =
+QT.xmlcompat_private.libs = \\$\\$QT_MODULE_LIB_BASE
+QT.xmlcompat_private.includes = \\$\\$QT_MODULE_LIB_BASE/QtXmlCompat.framework/Headers/${PROJECT_VERSION} \\$\\$QT_MODULE_LIB_BASE/QtXmlCompat.framework/Headers/${PROJECT_VERSION}/QtXmlCompat
+QT.xmlcompat_private.frameworks =
+QT.xmlcompat_private.depends = xmlcompat
+QT.xmlcompat_private.uses =
+QT.xmlcompat_private.module_config = v2 lib_bundle internal_module
+QT.xmlcompat_private.enabled_features =
+QT.xmlcompat_private.disabled_features =
+")
+
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat.pri"
+        CONTENT "${QT_LIB_XMLCOMPAT_PRI}"
+    )
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat_private.pri"
+        CONTENT "${QT_LIB_XMLCOMPAT_PRIVATE_PRI}"
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat.pri"
+        "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat_private.pri"
+        DESTINATION mkspecs/modules
+    )
+
+    # Generate pkgconfig file
+    set(PC_FILE_CONTENT "prefix=${CMAKE_INSTALL_PREFIX}
+exec_prefix=\${prefix}
+libdir=\${prefix}/lib
+includedir=\${prefix}/lib/QtXmlCompat.framework/Headers
+
+Name: Qt${QT_VERSION_MAJOR} XmlCompat
+Description: Qt XmlCompat module
+Version: ${PROJECT_VERSION}
+Libs: -F\${libdir} -framework QtXmlCompat 
+Cflags: -DQT_XMLCOMPAT_LIB -I\${includedir} -F\${libdir}
+Requires: Qt${QT_VERSION_MAJOR}Core
+
+")
+
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Qt${QT_VERSION_MAJOR}XmlCompat.pc"
+        CONTENT "${PC_FILE_CONTENT}"
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/Qt${QT_VERSION_MAJOR}XmlCompat.pc"
+        DESTINATION lib/pkgconfig
+    )
+endif()
+
 if(BUILD_TESTING)
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Test)
     add_subdirectory(tests)
