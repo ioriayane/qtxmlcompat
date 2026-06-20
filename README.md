@@ -91,7 +91,7 @@ $ cmake --install build-qtxmlcompat
 ##### examples of `QTDIR`
 
 - windows: TBD
-- ubuntu: TBD
+- ubuntu: ~/Qt/6.11.1/gcc_64
 - mac: ~/Qt/6.11.1/macos
 
 ### Using the module

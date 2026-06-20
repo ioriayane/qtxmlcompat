@@ -106,6 +106,80 @@ Requires: Qt${QT_VERSION_MAJOR}Core
         "${CMAKE_CURRENT_BINARY_DIR}/Qt${QT_VERSION_MAJOR}XmlCompat.pc"
         DESTINATION lib/pkgconfig
     )
+elseif(UNIX)
+    # Generate mkspecs/modules .pri files (Linux/Unix)
+    set(QT_LIB_XMLCOMPAT_PRI
+"QT.xmlcompat.VERSION = ${PROJECT_VERSION}
+QT.xmlcompat.name = Qt${QT_VERSION_MAJOR}XmlCompat
+QT.xmlcompat.module = Qt${QT_VERSION_MAJOR}XmlCompat
+QT.xmlcompat.ldflags = 
+QT.xmlcompat.libs = \$\$QT_MODULE_LIB_BASE
+QT.xmlcompat.includes = \$\$QT_MODULE_INCLUDE_BASE \$\$QT_MODULE_INCLUDE_BASE/QtXmlCompat
+QT.xmlcompat.frameworks =
+QT.xmlcompat.bins = \$\$QT_MODULE_BIN_BASE
+QT.xmlcompat.depends = core
+QT.xmlcompat.uses =
+QT.xmlcompat.module_config = v2
+QT.xmlcompat.DEFINES = QT_XMLCOMPAT_LIB
+QT.xmlcompat.enabled_features =
+QT.xmlcompat.disabled_features =
+QT_CONFIG +=
+QT_MODULES += xmlcompat
+")
+
+    set(QT_LIB_XMLCOMPAT_PRIVATE_PRI
+"QT.xmlcompat_private.VERSION = ${PROJECT_VERSION}
+QT.xmlcompat_private.name = Qt${QT_VERSION_MAJOR}XmlCompat
+QT.xmlcompat_private.module =
+QT.xmlcompat_private.libs = \$\$QT_MODULE_LIB_BASE
+QT.xmlcompat_private.includes = \$\$QT_MODULE_INCLUDE_BASE/QtXmlCompat/${PROJECT_VERSION} \$\$QT_MODULE_INCLUDE_BASE/QtXmlCompat/${PROJECT_VERSION}/QtXmlCompat
+QT.xmlcompat_private.frameworks =
+QT.xmlcompat_private.depends = xmlcompat
+QT.xmlcompat_private.uses =
+QT.xmlcompat_private.module_config = v2 internal_module
+QT.xmlcompat_private.enabled_features =
+QT.xmlcompat_private.disabled_features =
+")
+
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat.pri"
+        CONTENT "${QT_LIB_XMLCOMPAT_PRI}"
+    )
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat_private.pri"
+        CONTENT "${QT_LIB_XMLCOMPAT_PRIVATE_PRI}"
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat.pri"
+        "${CMAKE_CURRENT_BINARY_DIR}/qt_lib_xmlcompat_private.pri"
+        DESTINATION mkspecs/modules
+    )
+
+    # Generate pkgconfig file
+    set(PC_FILE_CONTENT "prefix=${CMAKE_INSTALL_PREFIX}
+exec_prefix=\${prefix}
+libdir=\${prefix}/${CMAKE_INSTALL_LIBDIR}
+includedir=\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}
+
+Name: Qt${QT_VERSION_MAJOR} XmlCompat
+Description: Qt XmlCompat module
+Version: ${PROJECT_VERSION}
+Libs: -L\${libdir} -lQt${QT_VERSION_MAJOR}XmlCompat 
+Cflags: -DQT_XMLCOMPAT_LIB -I\${includedir}/QtXmlCompat -I\${includedir}
+Requires: Qt${QT_VERSION_MAJOR}Core
+
+")
+
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Qt${QT_VERSION_MAJOR}XmlCompat.pc"
+        CONTENT "${PC_FILE_CONTENT}"
+    )
+
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/Qt${QT_VERSION_MAJOR}XmlCompat.pc"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+    )
 endif()
 
 if(BUILD_TESTING)
