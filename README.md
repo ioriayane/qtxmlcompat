@@ -50,10 +50,12 @@ This module have been tested on the following platforms:
 ### Requirements
 
 - Qt 5.15.2
-- Qt 6.0.0 ('Qt 5 Compatibility Module')
+- Qt 6.11.1 ('Qt 5 Compatibility Module')
 - Perl
 
 ### Building the module
+
+#### qmake
 
 ```
 $ git clone git@github.com:ioriayane/qtxmlcompat.git
@@ -64,11 +66,51 @@ $ make
 $ make install
 ```
 
+#### CMake
+
+`CMAKE_PREFIX_PATH` に Qt のインストールディレクトリを指定します。
+インストール先（`CMAKE_INSTALL_PREFIX`）は指定しない場合 Qt ディレクトリが自動で使われます。
+
+```
+$ cmake -S . -B build-qtxmlcompat \
+     -DCMAKE_PREFIX_PATH:PATH=$QTDIR \
+     -DCMAKE_BUILD_TYPE:STRING=Release
+
+# for mac
+$ cmake -S . -B build-qtxmlcompat \
+     -DCMAKE_PREFIX_PATH:PATH=$QTDIR \
+     -DCMAKE_BUILD_TYPE:STRING=Release \
+     -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+
+$ cmake --build build-qtxmlcompat
+$ cmake --install build-qtxmlcompat
+```
+
+> インストール先を変えたい場合は `-DCMAKE_INSTALL_PREFIX=<path>` を追加してください。
+
+##### examples of `QTDIR`
+
+- windows: TBD
+- ubuntu: TBD
+- mac: ~/Qt/6.11.1/macos
+
 ### Using the module
 
-#### qmake project file(*.pro)
+#### qmake project
+
 ```
 QT += xmlcompat
+greaterThan(QT_MAJOR_VERSION, 5) {
+QT += core5compat
+}
+```
+
+#### CMake project
+
+```
+find_package(QtXmlCompat CONFIG REQUIRED)
+
+target_link_libraries(your_target PRIVATE QtXmlCompat::QtXmlCompat)
 ```
 
 #### Source file(*.cpp/h)
@@ -77,14 +119,6 @@ QT += xmlcompat
 ```
 
 #### Example
-
-qmake project file
-```
-QT += xmlcompat
-greaterThan(QT_MAJOR_VERSION, 5) {
-QT += core5compat
-}
-```
 
 main.cpp
 ```
@@ -114,11 +148,9 @@ Output
 
 ### Testing the module
 
-Please run the test in a debug build.
-If you have success in a release build, that's your luck.
-
-On macOS, you set following environment variable.
+Please run the test in a Debug build.
 
 ```
-export DYLD_IMAGE_SUFFIX=_debug
+cmake --build build-qtxmlcompat --target tst_qdomdocumentcompattest
+ctest --test-dir build-qtxmlcompat --output-on-failure
 ```

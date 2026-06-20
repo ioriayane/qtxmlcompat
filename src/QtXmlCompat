@@ -1,0 +1,6 @@
+#ifndef QTXMLCOMPAT
+#define QTXMLCOMPAT
+
+#include "qdomdocumentcompat.h"
+
+#endif // QTXMLCOMPAT
