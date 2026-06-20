@@ -19,6 +19,17 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core5Compat)
 endif()
 
+# Default install prefix: Qt directory (derived from the located Qt package).
+# Override with -DCMAKE_INSTALL_PREFIX=<path> if needed.
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    get_filename_component(_qt_install_prefix
+        "${Qt${QT_VERSION_MAJOR}Core_DIR}/../../.."
+        ABSOLUTE)
+    set(CMAKE_INSTALL_PREFIX "${_qt_install_prefix}"
+        CACHE PATH "Install path prefix" FORCE)
+    message(STATUS "Default install prefix set to Qt directory: ${CMAKE_INSTALL_PREFIX}")
+endif()
+
 add_subdirectory(src)
 
 if(BUILD_TESTING)
