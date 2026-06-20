@@ -50,7 +50,7 @@ This module have been tested on the following platforms:
 ### Requirements
 
 - Qt 5.15.2
-- Qt 6.0.0 ('Qt 5 Compatibility Module')
+- Qt 6.11.1 ('Qt 5 Compatibility Module')
 - Perl
 
 ### Building the module
@@ -92,7 +92,7 @@ $ cmake --install build-qtxmlcompat
 
 - windows: TBD
 - ubuntu: TBD
-- mac: ~/Qt/6.11.0/macos
+- mac: ~/Qt/6.11.1/macos
 
 ### Using the module
 
