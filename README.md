@@ -40,7 +40,7 @@ This is because the namespace will be lost if the XML file output by QXmlSimpleR
 ## Supported Platforms
 
 This module have been tested on the following platforms:
-- Windows 10 (MSVC 2019 64bit)
+- Windows 11 (MSVC 2022 64bit)
 - Ubuntu 20.04
 - macOS 10.15
 
@@ -71,6 +71,7 @@ $ make install
 `CMAKE_PREFIX_PATH` に Qt のインストールディレクトリを指定します。
 インストール先（`CMAKE_INSTALL_PREFIX`）は指定しない場合 Qt ディレクトリが自動で使われます。
 
+Fow Linux/Mac
 ```
 $ cmake -S . -B build-qtxmlcompat \
      -DCMAKE_PREFIX_PATH:PATH=$QTDIR \
@@ -86,11 +87,19 @@ $ cmake --build build-qtxmlcompat
 $ cmake --install build-qtxmlcompat
 ```
 
+For Windows
+```
+cmake -S . -B build-qtxmlcompat -DCMAKE_PREFIX_PATH:PATH=%QTDIR%
+cmake --build build-qtxmlcompat --config Release
+cmake --install build-qtxmlcompat
+```
+
+
 > インストール先を変えたい場合は `-DCMAKE_INSTALL_PREFIX=<path>` を追加してください。
 
 ##### examples of `QTDIR`
 
-- windows: TBD
+- windows: C:\Qt\6.11.1\msvc2022_64
 - ubuntu: ~/Qt/6.11.1/gcc_64
 - mac: ~/Qt/6.11.1/macos
 
